@@ -1,22 +1,100 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %>.   Let's test reading get+post data</p>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title"><%= title %></h1>
+      <p class="description">
+        Welcome to <%= title %>. Enter customer details to submit order.
+      </p>
 
-<b>New Customer Form to test POST request to save data to MongoDB collection customers /readNameAndRespond</b>
-<br/>
-<form action="/saveNewCustomer" method="post">
+      <div class="form-section">
+        <h2 class="form-title">New Customer Form</h2>
+        <p>
+          Submit customer information related to AI-powered computer vision
+          services.
+        </p>
 
-  Name: <input type="text" name="name"> </input>
-  <br/>
-  Email: <input type="text" name="email"> </input>
-  <br/>
-  <input type="submit" value="Go"/>
-</form>
-</body>
+        <form class="customer-form" action="/saveNewCustomer" method="post">
+          <label class="form-label">Name:</label>
+          <input class="form-input" type="text" name="name" required />
+
+          <label class="form-label">Email:</label>
+          <input class="form-input" type="email" name="email" required />
+
+          <label class="form-label">Company Name:</label>
+          <input class="form-input" type="text" name="company" required />
+
+          <label class="form-label">Industry:</label>
+          <select class="form-input" name="industry" required>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Industrial">Industrial</option>
+            <option value="Retail Analytics">Retail Analytics</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label class="form-label">Service Interested In:</label>
+          <select class="form-input" name="service" required>
+            <option value="Object Detection">Object Detection</option>
+            <option value="Facial Recognition">Facial Recognition</option>
+            <option value="Anomaly Detection">Anomaly Detection</option>
+            <option value="Customer Behavior Analytics">
+              Customer Behavior Analytics
+            </option>
+          </select>
+
+          <label class="form-label">Project Budget (USD):</label>
+          <input class="form-input" type="number" name="budget" required />
+
+          <label class="form-label">Additional Comments:</label>
+          <textarea
+            class="form-textarea"
+            name="comments"
+            rows="4"
+            maxlength="100"
+          ></textarea>
+
+          <input class="form-submit" type="submit" value="Submit" />
+        </form>
+      </div>
+      <hr />
+
+      <div class="table-section">
+        <h2 class="table-title">Customer Data</h2>
+        <% if (customers && customers.length > 0) { %>
+        <table class="customer-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Industry</th>
+              <th>Service</th>
+              <th>Budget (USD)</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% customers.forEach(function(customer) { %>
+            <tr>
+              <td><%= customer.name %></td>
+              <td><%= customer.email %></td>
+              <td><%= customer.company %></td>
+              <td><%= customer.industry %></td>
+              <td><%= customer.service %></td>
+              <td><%= customer.budget %></td>
+              <td><%= customer.comments %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <% } else { %>
+        <p class="no-data">No customer data available.</p>
+        <% } %>
+      </div>
+    </div>
+  </body>
 </html>
